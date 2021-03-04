@@ -48,15 +48,6 @@ Organizations:
     - Host: peer0.org3.example.com
       Port: 7051
 
-- &Org4
-    Name: Org4MSP
-    ID: Org4MSP
-    MSPDir: crypto-config/peerOrganizations/org4.example.com/msp
-    AdminPrincipal: Role.ADMIN
-    AnchorPeers:
-    - Host: peer0.org4.example.com
-      Port: 7051
-
 # - &Org5
 #     Name: Org5MSP
 #     ID: Org5MSP
@@ -73,7 +64,6 @@ Orderer: &OrdererDefaults
     - orderer0.example.com:7050
     - orderer1.example.com:7050
     - orderer2.example.com:7050
-    - orderer3.example.com:7050
 
     BatchTimeout: 500ms
     BatchSize:
@@ -96,10 +86,6 @@ Orderer: &OrdererDefaults
           Port: 7050
           ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
           ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/server.crt
-        - Host: orderer3.example.com
-          Port: 7050
-          ClientTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
-          ServerTLSCert: crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/tls/server.crt
     Organizations:
 
 Application: &ApplicationDefaults
@@ -117,7 +103,7 @@ Profiles:
                 - *Org1
                 - *Org2
                 - *Org3
-                - *Org4
+                # - *Org4
                 # - *Org5
     ChannelConfig:
         Consortium: SampleConsortium
@@ -127,6 +113,6 @@ Profiles:
             - *Org1
             - *Org2
             - *Org3
-            - *Org4
+            # - *Org4
             # - *Org5
 
