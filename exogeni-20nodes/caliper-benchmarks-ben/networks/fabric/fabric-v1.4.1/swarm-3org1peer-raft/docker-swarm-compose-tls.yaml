@@ -1,0 +1,2116 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+version: '3'
+
+networks:
+  caliper-overlay:
+    external:
+      name: caliper-overlay
+      
+services:
+########################################################################
+##############################CA########################################
+########################################################################
+
+    ca_org1_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org1.example.com       
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org1.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org1.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org1.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7054:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca1:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org1.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org1.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node0]
+
+    ca_org2_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org2.example.com   
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org2.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org2.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org2.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7154:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca2:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org2.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org2.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node1]
+
+    ca_org3_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org3.example.com   
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org3.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org3.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org3.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7254:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca3:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org3.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org3.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node2]
+
+    ca_org4_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org4.example.com   
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org4.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org4.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org4.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7354:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca4:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org4.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org4.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node3]
+
+    ca_org5_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org5.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org5.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org5.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org5.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7454:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca5:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org5.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org5.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node4]
+
+    ca_org6_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org6.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org6.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org6.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org6.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7554:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca6:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org6.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org6.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node5]
+                
+    ca_org7_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org7.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org7.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org7.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org7.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7654:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca7:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org7.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org7.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node6]
+                
+    ca_org8_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org8.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org8.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org8.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org8.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7754:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca8:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org8.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org8.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node7]
+
+    ca_org9_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org9.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org9.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org9.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org9.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7854:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca5:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org9.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org9.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node8]
+
+    ca_org10_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org10.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org10.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org10.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org10.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 7954:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca10:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org10.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org10.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node9]
+
+    ca_org11_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org11.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org11.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org11.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org11.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8054:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca5:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org11.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org11.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node10]
+
+    ca_org12_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org12.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org12.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org12.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org12.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8154:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca12:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org12.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org12.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node11]
+
+    ca_org13_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org13.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org13.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org13.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org13.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8254:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca5:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org13.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org13.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node12]
+
+    ca_org14_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org14.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org14.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org14.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org14.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8354:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca14:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org14.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org14.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node13]
+
+    ca_org15_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org15.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org15.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org15.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org15.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8454:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca5:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org15.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org15.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node14]
+
+    ca_org16_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org16.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org16.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org16.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org16.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8554:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca5:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org16.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org16.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node15]
+
+    ca_org17_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org17.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org17.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org17.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org17.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8654:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca17:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org17.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org17.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node16]
+
+    ca_org18_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org18.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org18.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org18.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org18.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8754:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca18:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org18.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org18.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node17]
+
+    ca_org19_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org19.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org19.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org19.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org19.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8854:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca19:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org19.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org19.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node18]
+
+    ca_org20_example_com:
+        image: hyperledger/fabric-ca:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - ca.org20.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+        - FABRIC_CA_SERVER_CA_NAME=ca.org20.example.com
+        - FABRIC_CA_SERVER_CA_CERTFILE=/etc/hyperledger/fabric-ca-server-config/ca.org20.example.com-cert.pem
+        - FABRIC_CA_SERVER_CA_KEYFILE=/etc/hyperledger/fabric-ca-server-config/key.pem
+        - FABRIC_CA_SERVER_TLS_ENABLED=true
+        - FABRIC_CA_SERVER_TLS_CERTFILE=/etc/hyperledger/fabric-ca-server-tls/tlsca.org20.example.com-cert.pem
+        - FABRIC_CA_SERVER_TLS_KEYFILE=/etc/hyperledger/fabric-ca-server-tls/key.pem
+        ports:
+        - 8954:7054
+        command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+        volumes:
+        - backup-ca20:/etc/hyperledger/fabric-ca-server
+        - ./config/crypto-config/peerOrganizations/org20.example.com/ca/:/etc/hyperledger/fabric-ca-server-config
+        - ./config/crypto-config/peerOrganizations/org20.example.com/tlsca/:/etc/hyperledger/fabric-ca-server-tls
+        deploy:
+            placement:
+                constraints: [node.hostname == Node19]
+
+
+########################################################################
+##################################ORDERERS##############################
+########################################################################
+
+    orderer0_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer0.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7050:7050
+        volumes:
+        - backup-orderer0:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node0]
+
+
+    orderer1_example_com:
+        image: hyperledger/fabric-orderer:1.4.4        
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer1.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7150:7050
+        volumes:
+        - backup-orderer1:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node1]
+
+    orderer2_example_com:
+        image: hyperledger/fabric-orderer:1.4.4        
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer2.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7250:7050
+        volumes:
+        - backup-orderer2:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node2]
+
+    orderer3_example_com:
+        image: hyperledger/fabric-orderer:1.4.4        
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer3.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7350:7050
+        volumes:
+        - backup-orderer3:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer3.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node3]
+
+    orderer4_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer4.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7450:7050
+        volumes:
+        - backup-orderer4:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer4.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node4]
+    
+    orderer5_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer5.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7550:7050
+        volumes:
+        - backup-orderer5:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer5.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node5]
+
+    orderer6_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer6.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7650:7050
+        volumes:
+        - backup-orderer6:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer6.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node6]
+    
+    orderer7_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer7.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7750:7050
+        volumes:
+        - backup-orderer7:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer7.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node7]
+
+    orderer8_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer8.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7850:7050
+        volumes:
+        - backup-orderer8:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer8.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node8]
+
+    orderer9_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer9.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 7950:7050
+        volumes:
+        - backup-orderer9:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer9.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node9]
+
+    orderer10_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer10.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8050:7050
+        volumes:
+        - backup-orderer10:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer10.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node10]
+                
+    orderer11_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer11.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8150:7050
+        volumes:
+        - backup-orderer11:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer11.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node11]
+
+    orderer12_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer12.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8250:7050
+        volumes:
+        - backup-orderer12:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer12.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node12]
+
+    orderer13_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer13.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8350:7050
+        volumes:
+        - backup-orderer13:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer13.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node13]
+
+    orderer14_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer14.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8450:7050
+        volumes:
+        - backup-orderer14:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer14.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node14]
+
+    orderer15_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer15.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8550:7050
+        volumes:
+        - backup-orderer15:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer15.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node15]
+
+    orderer16_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer16.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8650:7050
+        volumes:
+        - backup-orderer16:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer16.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node16]
+
+    orderer17_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer17.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8750:7050
+        volumes:
+        - backup-orderer17:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer17.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node17]
+    
+    orderer18_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer18.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8850:7050
+        volumes:
+        - backup-orderer18:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer18.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node18]
+
+    orderer19_example_com:
+        image: hyperledger/fabric-orderer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - orderer19.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+        - ORDERER_GENERAL_GENESISMETHOD=file
+        - ORDERER_GENERAL_GENESISFILE=/etc/hyperledger/configtx/genesis.block
+        - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+        - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/msp/orderer/msp
+        - ORDERER_GENERAL_TLS_ENABLED=true
+        - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/msp/orderer/tls/ca.crt]
+        - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/etc/hyperledger/msp/orderer/tls/server.crt
+        - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/etc/hyperledger/msp/orderer/tls/server.key
+        - ORDERER_OPERATIONS_LISTENADDRESS=0.0.0.0:8443
+        - ORDERER_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: orderer
+        ports:
+        - 8950:7050
+        volumes:
+        - backup-orderer19:/var/hyperledger/production
+        - ./config/:/etc/hyperledger/configtx
+        - ./config/crypto-config/ordererOrganizations/example.com/orderers/orderer19.example.com/:/etc/hyperledger/msp/orderer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node19]
+
+
+########################################################################
+##################################PEERS#################################
+########################################################################
+
+    peer0_org1_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+            caliper-overlay:
+                aliases:
+                - peer0.org1.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org1.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org1MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org1.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+#        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7051:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org1:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node0]
+
+    peer0_org2_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org2.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org2.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org2MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7151:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org2:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node1]
+
+    peer0_org3_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org3.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org3.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org3MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org3.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org3.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7251:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org3:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org3.example.com/peers/peer0.org3.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node2]
+
+    peer0_org4_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org4.example.com 
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org4.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org4MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org4.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org4.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7351:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org4:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org4.example.com/peers/peer0.org4.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node3]
+
+    peer0_org5_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org5.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org5.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org5MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org5.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org5.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7451:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org5:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org5.example.com/peers/peer0.org5.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node4]
+
+    peer0_org6_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org6.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org6.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org6MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org6.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org6.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7551:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org6:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org6.example.com/peers/peer0.org6.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node5]
+
+    peer0_org7_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org7.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org7.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org7MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org7.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org7.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7651:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org7:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org7.example.com/peers/peer0.org7.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node6]
+
+    peer0_org8_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org8.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org8.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org8MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org8.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org8.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7751:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org8:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org8.example.com/peers/peer0.org8.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node7]
+    
+    peer0_org9_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org9.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org9.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org9MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org9.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org9.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7851:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org9:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org9.example.com/peers/peer0.org9.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node8]
+
+    peer0_org10_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org10.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org10.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org10MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org10.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org10.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 7951:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org10:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org10.example.com/peers/peer0.org10.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node9]
+
+    peer0_org11_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org11.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org11.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org11MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org11.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org11.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8051:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org11:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org11.example.com/peers/peer0.org11.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node10]
+
+    peer0_org12_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org12.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org12.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org12MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org12.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org12.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8151:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org12:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org12.example.com/peers/peer0.org12.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node11]
+
+    peer0_org13_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org13.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org13.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org13MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org13.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org13.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8251:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org13:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org13.example.com/peers/peer0.org13.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node12]
+
+    peer0_org14_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org14.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org14.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org14MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org14.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org14.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8351:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org14:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org14.example.com/peers/peer0.org14.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node13]
+
+    peer0_org15_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org15.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org15.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org15MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org15.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org15.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8451:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org15:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org15.example.com/peers/peer0.org15.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node14]
+
+    peer0_org16_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org16.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org16.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org16MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org16.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org16.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8551:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org16:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org16.example.com/peers/peer0.org16.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node15]
+
+    peer0_org17_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org17.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org17.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org17MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org17.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org17.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8651:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org17:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org17.example.com/peers/peer0.org17.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node16]
+
+    peer0_org18_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org18.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org18.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org18MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org18.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org18.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8751:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org18:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org18.example.com/peers/peer0.org18.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node17]
+
+    peer0_org19_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org19.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org19.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org19MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org19.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org19.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8851:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org19:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org19.example.com/peers/peer0.org19.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node18]
+
+    peer0_org20_example_com:
+        image: hyperledger/fabric-peer:1.4.4
+        networks:
+          caliper-overlay:
+              aliases:
+              - peer0.org20.example.com
+        environment:
+        - GODEBUG=netdns=go
+        - FABRIC_LOGGING_SPEC=grpc=debug:debug
+        - CORE_CHAINCODE_LOGGING_LEVEL=INFO
+        - CORE_CHAINCODE_LOGGING_SHIM=INFO
+        - CORE_CHAINCODE_BUILDER=hyperledger/fabric-ccenv:1.4.4
+        - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+        - CORE_PEER_ID=peer0.org20.example.com
+        - CORE_PEER_ENDORSER_ENABLED=true
+        - CORE_PEER_LOCALMSPID=Org20MSP
+        - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+        - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/msp/
+        - CORE_PEER_ADDRESS=peer0.org20.example.com:7051
+        - CORE_PEER_GOSSIP_USELEADERELECTION=true
+        - CORE_PEER_GOSSIP_ORGLEADER=false
+        - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org20.example.com:7051
+        - CORE_PEER_TLS_ENABLED=true
+        - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/msp/peer/tls/server.key
+        - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/msp/peer/tls/server.crt
+        - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/msp/peer/tls/ca.crt
+        - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=caliper-overlay
+        - CORE_OPERATIONS_LISTENADDRESS=0.0.0.0:9443
+        - CORE_METRICS_PROVIDER=prometheus
+        working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+        command: peer node start
+        ports:
+        - 8951:7051
+        volumes:
+        - /var/run/:/host/var/run/
+        - backup-peer0org20:/var/hyperledger/production
+        - ./config/crypto-config/peerOrganizations/org20.example.com/peers/peer0.org20.example.com/:/etc/hyperledger/msp/peer
+        deploy:
+            placement:
+                constraints: [node.hostname == Node19]
+
+volumes:
+  backup-ca1:
+  backup-ca2:
+  backup-ca3:
+  backup-ca4:
+  backup-ca5:
+  backup-ca6:
+  backup-ca7:
+  backup-ca8:
+  backup-ca9:
+  backup-ca10:
+  backup-ca11:
+  backup-ca12:
+  backup-ca13:
+  backup-ca14:
+  backup-ca15:
+  backup-ca16:
+  backup-ca17:
+  backup-ca18:
+  backup-ca19:
+  backup-ca20:
+  backup-orderer0:
+  backup-orderer1:
+  backup-orderer2:
+  backup-orderer3:
+  backup-orderer4:
+  backup-orderer5:
+  backup-orderer6:
+  backup-orderer7:
+  backup-orderer8:
+  backup-orderer9:
+  backup-orderer10:
+  backup-orderer11:
+  backup-orderer12:
+  backup-orderer13:
+  backup-orderer14:
+  backup-orderer15:
+  backup-orderer16:
+  backup-orderer17:
+  backup-orderer18:
+  backup-orderer19:
+  backup-peer0org1:
+  backup-peer0org2:
+  backup-peer0org3:
+  backup-peer0org4:
+  backup-peer0org5:
+  backup-peer0org6:
+  backup-peer0org7:
+  backup-peer0org8:
+  backup-peer0org9:
+  backup-peer0org10:
+  backup-peer0org11:
+  backup-peer0org12:
+  backup-peer0org13:
+  backup-peer0org14:
+  backup-peer0org15:
+  backup-peer0org16:
+  backup-peer0org17:
+  backup-peer0org18:
+  backup-peer0org19:
+  backup-peer0org20:
