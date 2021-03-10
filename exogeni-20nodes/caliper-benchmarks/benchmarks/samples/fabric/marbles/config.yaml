@@ -20,7 +20,7 @@ test:
   rounds:
   - label: init
     txDuration:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -28,7 +28,7 @@ test:
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: init
     txDuration:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -36,7 +36,7 @@ test:
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: init
     txDuration:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -44,7 +44,7 @@ test:
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: init
     txDuration:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -52,15 +52,15 @@ test:
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: init
     txDuration:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
-        tps: 50
+        tps: 100
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: query
     txNumber:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -68,7 +68,7 @@ test:
     callback: benchmarks/samples/fabric/marbles/query.js
   - label: query
     txNumber:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -76,7 +76,7 @@ test:
     callback: benchmarks/samples/fabric/marbles/query.js
   - label: query
     txNumber:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -84,7 +84,7 @@ test:
     callback: benchmarks/samples/fabric/marbles/query.js
   - label: query
     txNumber:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
@@ -92,11 +92,11 @@ test:
     callback: benchmarks/samples/fabric/marbles/query.js
   - label: query
     txNumber:
-    - 50
+    - 100
     rateControl:
     - type: fixed-rate
       opts:
-        tps: 50
+        tps: 100
     callback: benchmarks/samples/fabric/marbles/query.js
 monitor:
   type:
