@@ -1,0 +1,466 @@
+version: '3'
+
+networks:
+  caliper-overlay:
+    external: true
+
+services:    
+  cadvisor-1:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node0]
+    networks:
+    - caliper-overlay
+
+  cadvisor-2:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node1]
+
+  cadvisor-3:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node2]
+
+  cadvisor-4:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node3]
+
+  cadvisor-5:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node4]
+
+  cadvisor-6:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node5]
+
+  cadvisor-7:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node6]
+
+  cadvisor-8:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node7]
+
+  cadvisor-9:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node8]
+
+  cadvisor-10:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node9]
+
+  cadvisor-11:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node10]
+
+  cadvisor-12:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node11]
+
+  cadvisor-13:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node12]
+
+  cadvisor-14:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node13]
+
+  cadvisor-15:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node14]
+
+  cadvisor-16:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node15]
+
+  cadvisor-17:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node16]
+
+  cadvisor-18:
+    image: google/cadvisor:latest
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker:/var/lib/docker:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node17]
+
+  node-exporter-1:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node0]
+    networks:
+    - caliper-overlay
+
+  node-exporter-2:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node1]
+    networks:
+    - caliper-overlay
+
+  node-exporter-3:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node2]
+    networks:
+    - caliper-overlay
+
+  node-exporter-4:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node3]
+    networks:
+    - caliper-overlay
+
+  node-exporter-5:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node4]
+    networks:
+    - caliper-overlay
+
+  node-exporter-6:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node5]
+    networks:
+    - caliper-overlay
+
+  node-exporter-7:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node6]
+    networks:
+    - caliper-overlay
+
+  node-exporter-8:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node7]
+    networks:
+    - caliper-overlay
+
+  node-exporter-9:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node8]
+    networks:
+    - caliper-overlay
+
+  node-exporter-10:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node9]
+    networks:
+    - caliper-overlay
+
+  node-exporter-11:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node10]
+    networks:
+    - caliper-overlay
+
+  node-exporter-12:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node11]
+    networks:
+    - caliper-overlay
+
+  node-exporter-13:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node12]
+    networks:
+    - caliper-overlay
+
+  node-exporter-14:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node13]
+    networks:
+    - caliper-overlay
+
+  node-exporter-15:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node14]
+    networks:
+    - caliper-overlay
+
+  node-exporter-16:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node15]
+    networks:
+    - caliper-overlay
+
+  node-exporter-17:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node16]
+    networks:
+    - caliper-overlay
+
+  node-exporter-18:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    deploy:
+      placement:
+        constraints: [node.hostname == Node17]
+    networks:
+    - caliper-overlay
+
+  prometheus:
+    image: prom/prometheus
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+    - 9090:9090
+    volumes:
+    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+    - caliper-overlay
+
+  grafana:
+    image: grafana/grafana
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+    - 3000:3000
+    depends_on:
+    - prometheus
+    networks:
+    - caliper-overlay
+  
+  pushGateway:
+    image: prom/pushgateway
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    ports:
+    - 9091:9091
+    networks:
+    - caliper-overlay
+

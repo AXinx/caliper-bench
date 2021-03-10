@@ -1,0 +1,86 @@
+# my global config
+global:
+  scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+scrape_configs:
+    - job_name: prometheus
+      static_configs:
+        - targets: ['prometheus:9090']
+          labels:
+            instance: prometheus
+
+    - job_name: pushGateway
+      static_configs:
+        - targets: ['pushGateway:9091']
+          labels:
+            instance: pushGateway
+
+    - job_name: cadvisor
+      static_configs:
+        - targets: ['cadvisor-1:8080']
+          labels:
+            instance: cadvisor1
+        - targets: ['cadvisor-2:8080']
+          labels:
+            instance: cadvisor2
+        - targets: ['cadvisor-3:8080']
+          labels:
+            instance: cadvisor3
+        - targets: ['cadvisor-4:8080']
+          labels:
+            instance: cadvisor4
+        - targets: ['cadvisor-5:8080']
+          labels:
+            instance: cadvisor5
+        - targets: ['cadvisor-6:8080']
+          labels:
+            instance: cadvisor6
+        - targets: ['cadvisor-7:8080']
+          labels:
+            instance: cadvisor7
+        - targets: ['cadvisor-8:8080']
+          labels:
+            instance: cadvisor8
+        - targets: ['cadvisor-9:8080']
+          labels:
+            instance: cadvisor9
+
+    - job_name: nodeexporter
+      static_configs:
+        - targets: ['node-exporter-1:9100']
+          labels:
+            instance: nodeexporter1
+        - targets: ['node-exporter-2:9100']
+          labels:
+            instance: nodeexporter2
+        - targets: ['node-exporter-3:9100']
+          labels:
+            instance: nodeexporter3
+        - targets: ['node-exporter-4:9100']
+          labels:
+            instance: nodeexporter4
+        - targets: ['node-exporter-5:9100']
+          labels:
+            instance: nodeexporter5
+        - targets: ['node-exporter-6:9100']
+          labels:
+            instance: nodeexporter6
+        - targets: ['node-exporter-7:9100']
+          labels:
+            instance: nodeexporter7
+        - targets: ['node-exporter-8:9100']
+          labels:
+            instance: nodeexporter8
+        - targets: ['node-exporter-9:9100']
+          labels:
+            instance: nodeexporter9
+
+    - job_name: hyperledger_orderer
+      static_configs:
+      - targets: ['orderer0_example_com:8443', 'orderer1_example_com:8443', 'orderer2_example_com:8443', 'orderer3_example_com:8443', 'orderer4_example_com:8443', 'orderer5_example_com:8443', 'orderer6_example_com:8443', 'orderer7_example_com:8443', 'orderer8_example_com:8443']
+    
+    - job_name: hyperledger_peer
+      static_configs:
+      - targets: ['peer0_org1_example_com:9443', 'peer0_org2_example_com:9443', 'peer0_org3_example_com:9443', 'peer0_org4_example_com:9443', 'peer0_org5_example_com:9443', 'peer0_org6_example_com:9443', 'peer0_org7_example_com:9443', 'peer0_org8_example_com:9443', 'peer0_org9_example_com:9443']
