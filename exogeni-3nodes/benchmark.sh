@@ -3,13 +3,10 @@ cd /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-
 
 cd ~
 
-ssh Node0 "mkdir -p /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/"
 scp -r /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/config/ Node0:/root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/
 
-ssh Node1 "mkdir -p /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/"
 scp -r /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/config/ Node1:/root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/
 
-ssh Node2 "mkdir -p /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/"
 scp -r /root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/config/ Node2:/root/caliper-bench/exogeni-3nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/
 
 cd /root/caliper-bench/exogeni-3nodes/monitor
