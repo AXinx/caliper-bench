@@ -21,50 +21,50 @@ test:
   - label: init
     txDuration:
     - 100
-    - 100
-    - 100
-    - 100
-    - 100
+#    - 100
+#    - 100
+#    - 100
+#    - 100
     rateControl:
     - type: fixed-rate
       opts:
         tps: 10
-    - type: fixed-rate
-      opts:
-        tps: 20
-    - type: fixed-rate
-      opts:
-        tps: 30
-    - type: fixed-rate
-      opts:
-        tps: 40
-    - type: fixed-rate
-      opts:
-        tps: 50
+#    - type: fixed-rate
+#      opts:
+#        tps: 20
+#    - type: fixed-rate
+#      opts:
+#        tps: 30
+#    - type: fixed-rate
+#      opts:
+#        tps: 40
+#    - type: fixed-rate
+#      opts:
+#        tps: 50
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: query
     txDuration:
     - 100
-    - 100
-    - 100
-    - 100
-    - 100
+#    - 100
+#    - 100
+#    - 100
+#    - 100
     rateControl:
     - type: fixed-rate
       opts:
         tps: 10
-    - type: fixed-rate
-      opts:
-        tps: 20
-    - type: fixed-rate
-      opts:
-        tps: 30
-    - type: fixed-rate
-      opts:
-        tps: 40
-    - type: fixed-rate
-      opts:
-        tps: 50
+#    - type: fixed-rate
+#      opts:
+#        tps: 20
+#    - type: fixed-rate
+#      opts:
+#        tps: 30
+#    - type: fixed-rate
+#      opts:
+#        tps: 40
+#    - type: fixed-rate
+#      opts:
+#        tps: 50
     callback: benchmarks/samples/fabric/marbles/query.js
 monitor:
   type:
