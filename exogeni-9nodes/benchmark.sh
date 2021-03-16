@@ -3,6 +3,13 @@ cd /root/caliper-bench/exogeni-9nodes/caliper-benchmarks/networks/fabric/fabric-
 
 cd ~
 
+if  [ ! -f "/tmp/hfc-kvs" ]; then
+  rm -r /tmp/hfc-kvs/
+fi
+if  [ ! -f "/tmp/hfc-cvs" ]; then
+  rm -r /tmp/hfc-cvs/
+fi
+
 scp -r /root/caliper-bench/exogeni-9nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/config/ Node0:/root/caliper-bench/exogeni-9nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/
 
 cp -r /root/caliper-bench/exogeni-9nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/config/ Node1:/root/caliper-bench/exogeni-9nodes/caliper-benchmarks/networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/
