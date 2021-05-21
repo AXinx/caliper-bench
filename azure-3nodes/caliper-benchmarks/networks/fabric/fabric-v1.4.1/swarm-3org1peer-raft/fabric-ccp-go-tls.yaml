@@ -19,9 +19,6 @@ caliper:
   command:
     start: #docker network create --attachable -d overlay caliper-overlay &&
            docker stack deploy --compose-file networks/fabric/fabric-v1.4.1/swarm-3org1peer-raft/docker-swarm-compose-tls.yaml caliper-overlay;sleep 40s
-           #end: docker service rm $(docker service ls -q);
-           #docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker rmi -f $(docker images -q);
-           #docker network rm caliper-overlay
     end: docker stack rm caliper-overlay;
           docker rmi -f $(docker images "hyperledger\/*")
 #          docker network rm caliper-overlay

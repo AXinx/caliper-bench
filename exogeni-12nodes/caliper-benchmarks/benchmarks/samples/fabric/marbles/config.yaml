@@ -20,11 +20,11 @@ test:
   rounds:
   - label: init
     txDuration:
-    - 100
-    - 100
-    - 100
-    - 100
-    - 100
+    - 300
+    - 300
+    - 300
+    - 300
+    - 300
     rateControl:
     - type: fixed-rate
       opts:
@@ -44,11 +44,11 @@ test:
     callback: benchmarks/samples/fabric/marbles/init.js
   - label: query
     txDuration:
-    - 100
-    - 100
-    - 100
-    - 100
-    - 100
+    - 300
+    - 300
+    - 300
+    - 300
+    - 300
     rateControl:
     - type: fixed-rate
       opts:
